@@ -1,0 +1,1515 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta name="theme-color" content="#176b3a">
+<title>Agri Store Pro | Shop Management</title>
+
+<style>
+:root {
+  --green: #176b3a;
+  --green-dark: #104c29;
+  --green-light: #e8f5ec;
+  --bg: #f4f7f4;
+  --white: #ffffff;
+  --text: #203329;
+  --muted: #718077;
+  --border: #e0e8e1;
+  --red: #c62828;
+  --orange: #e58b18;
+}
+
+* {
+  box-sizing: border-box;
+}
+
+body {
+  margin: 0;
+  font-family: Arial, sans-serif;
+  background: var(--bg);
+  color: var(--text);
+}
+
+button, input, select {
+  font: inherit;
+}
+
+button {
+  cursor: pointer;
+}
+
+.header {
+  background: var(--green);
+  color: white;
+  padding: 18px 20px;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 12px;
+  flex-wrap: wrap;
+}
+
+.brand {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+}
+
+.brand-icon {
+  font-size: 35px;
+}
+
+.brand h1 {
+  font-size: 22px;
+  margin: 0 0 5px;
+}
+
+.brand p {
+  margin: 0;
+  font-size: 12px;
+  opacity: .9;
+}
+
+.header-date {
+  font-size: 13px;
+}
+
+.layout {
+  display: flex;
+  min-height: calc(100vh - 75px);
+}
+
+.sidebar {
+  width: 220px;
+  flex-shrink: 0;
+  background: var(--white);
+  padding: 18px 12px;
+  border-right: 1px solid var(--border);
+}
+
+.nav-label {
+  font-size: 11px;
+  color: var(--muted);
+  padding: 12px;
+  text-transform: uppercase;
+  letter-spacing: 1px;
+}
+
+.nav-btn {
+  width: 100%;
+  text-align: left;
+  border: 0;
+  background: transparent;
+  padding: 12px;
+  border-radius: 8px;
+  margin-bottom: 4px;
+  color: var(--text);
+}
+
+.nav-btn:hover,
+.nav-btn.active {
+  background: var(--green-light);
+  color: var(--green);
+  font-weight: bold;
+}
+
+.main {
+  padding: 24px;
+  flex: 1;
+  min-width: 0;
+}
+
+.page {
+  display: none;
+}
+
+.page.active {
+  display: block;
+}
+
+.page-heading {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  flex-wrap: wrap;
+  gap: 12px;
+  margin-bottom: 22px;
+}
+
+.page-heading h2 {
+  margin: 0 0 6px;
+  font-size: 24px;
+}
+
+.page-heading p {
+  margin: 0;
+  color: var(--muted);
+  font-size: 13px;
+}
+
+.stats {
+  display: grid;
+  grid-template-columns: repeat(4, minmax(130px, 1fr));
+  gap: 15px;
+  margin-bottom: 22px;
+}
+
+.stat-card {
+  background: white;
+  border: 1px solid var(--border);
+  border-radius: 12px;
+  padding: 18px;
+}
+
+.stat-card .icon {
+  font-size: 24px;
+}
+
+.stat-card .label {
+  color: var(--muted);
+  font-size: 12px;
+  margin-top: 12px;
+}
+
+.stat-card .value {
+  font-size: 25px;
+  font-weight: bold;
+  margin-top: 7px;
+  overflow-wrap: anywhere;
+}
+
+.stat-card .note {
+  font-size: 11px;
+  color: var(--muted);
+  margin-top: 7px;
+}
+
+.panel {
+  background: white;
+  border: 1px solid var(--border);
+  border-radius: 12px;
+  padding: 18px;
+  margin-bottom: 20px;
+  min-width: 0;
+}
+
+.panel h3 {
+  margin: 0 0 16px;
+  font-size: 17px;
+}
+
+.toolbar {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 10px;
+  margin-bottom: 15px;
+}
+
+input, select {
+  padding: 11px;
+  border: 1px solid #d5dfd7;
+  border-radius: 7px;
+  background: white;
+  min-width: 0;
+  max-width: 100%;
+}
+
+.toolbar input {
+  flex: 1;
+  min-width: 140px;
+}
+
+.btn {
+  border: 0;
+  background: var(--green);
+  color: white;
+  padding: 11px 15px;
+  border-radius: 7px;
+  font-weight: bold;
+}
+
+.btn:hover {
+  background: var(--green-dark);
+}
+
+.btn-secondary {
+  background: #edf2ed;
+  color: var(--text);
+}
+
+.btn-danger {
+  background: #fdeaea;
+  color: var(--red);
+}
+
+.btn-small {
+  padding: 7px 9px;
+  font-size: 12px;
+  margin: 2px;
+}
+
+.table-wrap {
+  width: 100%;
+  overflow-x: auto;
+}
+
+table {
+  border-collapse: collapse;
+  width: 100%;
+  font-size: 13px;
+  white-space: nowrap;
+}
+
+th, td {
+  text-align: left;
+  padding: 12px 10px;
+  border-bottom: 1px solid var(--border);
+}
+
+th {
+  background: #f7faf7;
+  color: #526257;
+}
+
+.empty {
+  text-align: center;
+  color: var(--muted);
+  padding: 28px;
+}
+
+.badge {
+  padding: 5px 8px;
+  border-radius: 20px;
+  background: var(--green-light);
+  color: var(--green);
+  font-size: 11px;
+}
+
+.badge-low {
+  background: #fff0d8;
+  color: #975900;
+}
+
+.form-grid {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: 14px;
+}
+
+.field {
+  display: flex;
+  flex-direction: column;
+  gap: 7px;
+  font-size: 13px;
+  font-weight: bold;
+}
+
+.field input,
+.field select {
+  width: 100%;
+  font-weight: normal;
+}
+
+.form-actions {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 10px;
+  margin-top: 18px;
+}
+
+.notice {
+  background: #fff5dc;
+  border: 1px solid #f1dfa9;
+  padding: 12px;
+  border-radius: 8px;
+  color: #74551a;
+  font-size: 13px;
+  line-height: 1.6;
+  margin-bottom: 18px;
+}
+
+.footer {
+  padding: 20px;
+  text-align: center;
+  color: var(--muted);
+  font-size: 12px;
+}
+
+.hidden {
+  display: none !important;
+}
+
+@media (max-width: 850px) {
+  .layout {
+    display: block;
+  }
+
+  .sidebar {
+    width: 100%;
+    display: flex;
+    overflow-x: auto;
+    padding: 8px;
+    border-right: 0;
+    border-bottom: 1px solid var(--border);
+    gap: 5px;
+  }
+
+  .nav-label {
+    display: none;
+  }
+
+  .nav-btn {
+    width: auto;
+    flex-shrink: 0;
+    white-space: nowrap;
+    padding: 11px;
+  }
+
+  .main {
+    padding: 15px;
+  }
+
+  .stats {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+    gap: 10px;
+  }
+
+  .stat-card {
+    padding: 13px;
+  }
+
+  .stat-card .value {
+    font-size: 21px;
+  }
+}
+
+@media (max-width: 430px) {
+  .brand h1 {
+    font-size: 19px;
+  }
+
+  .header {
+    padding: 14px;
+  }
+
+  .form-grid {
+    grid-template-columns: 1fr;
+  }
+
+  .page-heading h2 {
+    font-size: 21px;
+  }
+}
+</style>
+</head>
+
+<body>
+
+<header class="header">
+  <div class="brand">
+    <div class="brand-icon">🌾</div>
+    <div>
+      <h1>Agri Store Pro</h1>
+      <p>Fertilizer · Seeds · Pesticides</p>
+    </div>
+  </div>
+  <div class="header-date" id="todayDate"></div>
+</header>
+
+<div class="layout">
+
+  <aside class="sidebar">
+    <div class="nav-label">Main Menu</div>
+    <button class="nav-btn active" data-page="dashboard">🏠 Dashboard</button>
+    <button class="nav-btn" data-page="products">📦 Products & Stock</button>
+    <button class="nav-btn" data-page="sales">🧾 Sales</button>
+    <button class="nav-btn" data-page="customers">👨‍🌾 Customers</button>
+    <button class="nav-btn" data-page="reports">📊 Reports</button>
+    <button class="nav-btn" data-page="settings">⚙️ Settings</button>
+  </aside>
+
+  <main class="main">
+
+    <section class="page active" id="dashboard">
+      <div class="page-heading">
+        <div>
+          <h2>Shop Dashboard</h2>
+          <p>Your agriculture business at a glance.</p>
+        </div>
+        <button class="btn" onclick="showPage('products')">+ Add Product</button>
+      </div>
+
+      <div class="notice">
+        Welcome to Agri Store Pro! Abhi aapka software setup mode mein hai.
+        Products add karne ke baad dashboard par aapke apne records nazar aayenge.
+      </div>
+
+      <div class="stats">
+        <div class="stat-card">
+          <div class="icon">📦</div>
+          <div class="label">Total Products</div>
+          <div class="value" id="totalProducts">0</div>
+          <div class="note">Registered products</div>
+        </div>
+
+        <div class="stat-card">
+          <div class="icon">🧺</div>
+          <div class="label">Stock Units</div>
+          <div class="value" id="totalStock">0</div>
+          <div class="note">Combined quantities</div>
+        </div>
+
+        <div class="stat-card">
+          <div class="icon">🧾</div>
+          <div class="label">Total Sales</div>
+          <div class="value" id="totalSales">Rs 0</div>
+          <div class="note">Recorded sales</div>
+        </div>
+
+        <div class="stat-card">
+          <div class="icon">💳</div>
+          <div class="label">Customer Dues</div>
+          <div class="value" id="totalDues">Rs 0</div>
+          <div class="note">Outstanding balances</div>
+        </div>
+      </div>
+
+      <div class="panel">
+        <h3>⚠️ Low Stock Products</h3>
+        <div class="table-wrap">
+          <table>
+            <thead>
+              <tr>
+                <th>Product</th>
+                <th>Category</th>
+                <th>Stock</th>
+                <th>Unit</th>
+              </tr>
+            </thead>
+            <tbody id="lowStockTable"></tbody>
+          </table>
+        </div>
+      </div>
+
+      <div class="panel">
+        <h3>🕒 Recent Sales</h3>
+        <div class="table-wrap">
+          <table>
+            <thead>
+              <tr>
+                <th>Date</th>
+                <th>Customer</th>
+                <th>Amount</th>
+                <th>Payment</th>
+              </tr>
+            </thead>
+            <tbody id="recentSalesTable"></tbody>
+          </table>
+        </div>
+      </div>
+    </section>
+
+    <section class="page" id="products">
+      <div class="page-heading">
+        <div>
+          <h2>Products & Stock</h2>
+          <p>Manage fertilizers, seeds and pesticides.</p>
+        </div>
+        <button class="btn" onclick="toggleProductForm()">+ Add Product</button>
+      </div>
+
+      <div class="panel hidden" id="productFormPanel">
+        <h3 id="productFormTitle">Add New Product</h3>
+        <form id="productForm">
+          <input type="hidden" id="editProductId">
+
+          <div class="form-grid">
+            <label class="field">
+              Product Name *
+              <input id="productName" required maxlength="100" placeholder="e.g. Urea Fertilizer">
+            </label>
+
+            <label class="field">
+              Category *
+              <select id="productCategory" required>
+                <option value="Fertilizer">Fertilizer</option>
+                <option value="Seeds">Seeds</option>
+                <option value="Pesticide">Pesticide</option>
+                <option value="Herbicide">Herbicide</option>
+                <option value="Fungicide">Fungicide</option>
+                <option value="Other">Other</option>
+              </select>
+            </label>
+
+            <label class="field">
+              Company / Brand
+              <input id="productBrand" maxlength="100" placeholder="Company name">
+            </label>
+
+            <label class="field">
+              Unit
+              <select id="productUnit">
+                <option value="Bag">Bag</option>
+                <option value="Kg">Kg</option>
+                <option value="Liter">Liter</option>
+                <option value="Bottle">Bottle</option>
+                <option value="Packet">Packet</option>
+                <option value="Piece">Piece</option>
+                <option value="Box">Box</option>
+              </select>
+            </label>
+
+            <label class="field">
+              Purchase Price (Rs) *
+              <input id="purchasePrice" type="number" min="0" step="0.01" required placeholder="0">
+            </label>
+
+            <label class="field">
+              Sale Price (Rs) *
+              <input id="salePrice" type="number" min="0" step="0.01" required placeholder="0">
+            </label>
+
+            <label class="field">
+              Opening Stock *
+              <input id="productStock" type="number" min="0" step="0.001" required placeholder="0">
+            </label>
+
+            <label class="field">
+              Low Stock Alert
+              <input id="lowStockLimit" type="number" min="0" step="0.001" value="5">
+            </label>
+
+            <label class="field">
+              Batch Number
+              <input id="batchNumber" maxlength="60" placeholder="Optional">
+            </label>
+
+            <label class="field">
+              Expiry Date
+              <input id="expiryDate" type="date">
+            </label>
+          </div>
+
+          <div class="form-actions">
+            <button type="submit" class="btn">Save Product</button>
+            <button type="button" class="btn btn-secondary" onclick="toggleProductForm(false)">Cancel</button>
+          </div>
+        </form>
+      </div>
+
+      <div class="panel">
+        <div class="toolbar">
+          <input id="productSearch" placeholder="Search product or brand...">
+          <select id="categoryFilter">
+            <option value="">All Categories</option>
+            <option>Fertilizer</option>
+            <option>Seeds</option>
+            <option>Pesticide</option>
+            <option>Herbicide</option>
+            <option>Fungicide</option>
+            <option>Other</option>
+          </select>
+        </div>
+
+        <div class="table-wrap">
+          <table>
+            <thead>
+              <tr>
+                <th>Product</th>
+                <th>Category</th>
+                <th>Brand</th>
+                <th>Stock</th>
+                <th>Unit</th>
+                <th>Purchase</th>
+                <th>Sale Price</th>
+                <th>Expiry</th>
+                <th>Actions</th>
+              </tr>
+            </thead>
+            <tbody id="productsTable"></tbody>
+          </table>
+        </div>
+      </div>
+    </section>
+
+    <section class="page" id="sales">
+      <div class="page-heading">
+        <div>
+          <h2>Sales & Billing</h2>
+          <p>Record a customer sale and update stock.</p>
+        </div>
+      </div>
+
+      <div class="panel">
+        <h3>New Sale</h3>
+        <form id="saleForm">
+          <div class="form-grid">
+            <label class="field">
+              Customer
+              <select id="saleCustomer">
+                <option value="">Walk-in Customer</option>
+              </select>
+            </label>
+
+            <label class="field">
+              Product *
+              <select id="saleProduct" required>
+                <option value="">Select product</option>
+              </select>
+            </label>
+
+            <label class="field">
+              Quantity *
+              <input id="saleQuantity" type="number" min="0.001" step="0.001" required value="1">
+            </label>
+
+            <label class="field">
+              Price per Unit (Rs)
+              <input id="saleUnitPrice" type="number" min="0" step="0.01" required>
+            </label>
+
+            <label class="field">
+              Payment Type
+              <select id="salePayment">
+                <option value="Cash">Cash</option>
+                <option value="Credit">Credit / Udhaar</option>
+                <option value="Partial">Partial Payment</option>
+              </select>
+            </label>
+
+            <label class="field">
+              Amount Received (Rs)
+              <input id="salePaid" type="number" min="0" step="0.01" value="0" required>
+            </label>
+          </div>
+
+          <div style="margin-top:18px;font-size:18px;font-weight:bold">
+            Total: <span id="saleTotalPreview">Rs 0</span>
+          </div>
+
+          <div class="form-actions">
+            <button class="btn" type="submit">Complete Sale</button>
+          </div>
+        </form>
+      </div>
+
+      <div class="panel">
+        <h3>Sales History</h3>
+        <div class="table-wrap">
+          <table>
+            <thead>
+              <tr>
+                <th>Invoice</th>
+                <th>Date</th>
+                <th>Customer</th>
+                <th>Product</th>
+                <th>Qty</th>
+                <th>Total</th>
+                <th>Paid</th>
+                <th>Due</th>
+              </tr>
+            </thead>
+            <tbody id="salesTable"></tbody>
+          </table>
+        </div>
+      </div>
+    </section>
+
+    <section class="page" id="customers">
+      <div class="page-heading">
+        <div>
+          <h2>Customers & Udhaar</h2>
+          <p>Maintain customer details and outstanding balances.</p>
+        </div>
+        <button class="btn" onclick="toggleCustomerForm()">+ Add Customer</button>
+      </div>
+
+      <div class="panel hidden" id="customerFormPanel">
+        <h3>Add Customer</h3>
+        <form id="customerForm">
+          <div class="form-grid">
+            <label class="field">
+              Customer Name *
+              <input id="customerName" required maxlength="100">
+            </label>
+
+            <label class="field">
+              Mobile Number
+              <input id="customerPhone" type="tel" maxlength="25">
+            </label>
+
+            <label class="field">
+              Village / Address
+              <input id="customerAddress" maxlength="150">
+            </label>
+          </div>
+
+          <div class="form-actions">
+            <button class="btn" type="submit">Save Customer</button>
+            <button class="btn btn-secondary" type="button" onclick="toggleCustomerForm(false)">Cancel</button>
+          </div>
+        </form>
+      </div>
+
+      <div class="panel">
+        <div class="toolbar">
+          <input id="customerSearch" placeholder="Search customer...">
+        </div>
+
+        <div class="table-wrap">
+          <table>
+            <thead>
+              <tr>
+                <th>Name</th>
+                <th>Phone</th>
+                <th>Address</th>
+                <th>Outstanding Due</th>
+                <th>Actions</th>
+              </tr>
+            </thead>
+            <tbody id="customersTable"></tbody>
+          </table>
+        </div>
+      </div>
+    </section>
+
+    <section class="page" id="reports">
+      <div class="page-heading">
+        <div>
+          <h2>Business Reports</h2>
+          <p>Review recorded sales and inventory value.</p>
+        </div>
+        <button class="btn" onclick="exportData()">Export Backup</button>
+      </div>
+
+      <div class="stats">
+        <div class="stat-card">
+          <div class="icon">💰</div>
+          <div class="label">Total Sales</div>
+          <div class="value" id="reportSales">Rs 0</div>
+        </div>
+        <div class="stat-card">
+          <div class="icon">🛒</div>
+          <div class="label">Stock Purchase Value</div>
+          <div class="value" id="stockValue">Rs 0</div>
+        </div>
+        <div class="stat-card">
+          <div class="icon">📈</div>
+          <div class="label">Estimated Gross Profit</div>
+          <div class="value" id="grossProfit">Rs 0</div>
+        </div>
+        <div class="stat-card">
+          <div class="icon">💳</div>
+          <div class="label">Total Outstanding</div>
+          <div class="value" id="reportDues">Rs 0</div>
+        </div>
+      </div>
+
+      <div class="notice">
+        Gross profit is an estimate based on recorded sale prices and product purchase costs.
+        Other expenses, returns and tax are not yet included.
+      </div>
+
+      <div class="panel">
+        <h3>Data Backup</h3>
+        <p style="font-size:13px;line-height:1.7;color:#718077">
+          Export a JSON backup of your current data. Keep the file safe.
+          Backup restore and automatic cloud synchronization will be added in a later stage.
+        </p>
+        <button class="btn" onclick="exportData()">Download Data Backup</button>
+      </div>
+    </section>
+
+    <section class="page" id="settings">
+      <div class="page-heading">
+        <div>
+          <h2>Settings</h2>
+          <p>Configure your shop information.</p>
+        </div>
+      </div>
+
+      <div class="panel">
+        <h3>Shop Information</h3>
+        <form id="settingsForm">
+          <div class="form-grid">
+            <label class="field">
+              Shop Name
+              <input id="shopName" maxlength="100" value="Agri Store Pro">
+            </label>
+
+            <label class="field">
+              Owner Name
+              <input id="ownerName" maxlength="100" placeholder="Shop owner">
+            </label>
+
+            <label class="field">
+              Mobile Number
+              <input id="shopPhone" maxlength="25" placeholder="03XX-XXXXXXX">
+            </label>
+
+            <label class="field">
+              Shop Address
+              <input id="shopAddress" maxlength="200" placeholder="Village / City">
+            </label>
+          </div>
+
+          <div class="form-actions">
+            <button class="btn" type="submit">Save Settings</button>
+          </div>
+        </form>
+      </div>
+
+      <div class="panel">
+        <h3>Current Software Status</h3>
+        <p style="font-size:13px;line-height:1.8">
+          Interface: Ready<br>
+          Currency: Pakistani Rupee (PKR)<br>
+          Database: Browser local storage (initial version)<br>
+          Cloud sync: Not configured<br>
+          Automatic offline installation: Not configured yet
+        </p>
+      </div>
+    </section>
+
+  </main>
+</div>
+
+<footer class="footer">
+  Agri Store Pro · Agriculture Shop Management · Version 1.0
+</footer>
+
+<script>
+"use strict";
+
+const DB_KEY = "agriStoreProDataV1";
+
+function emptyDB() {
+  return {
+    products: [],
+    customers: [],
+    sales: [],
+    settings: {
+      shopName: "Agri Store Pro",
+      ownerName: "",
+      shopPhone: "",
+      shopAddress: ""
+    },
+    nextProductId: 1,
+    nextCustomerId: 1,
+    nextSaleId: 1
+  };
+}
+
+function loadDB() {
+  try {
+    const saved = localStorage.getItem(DB_KEY);
+    if (!saved) return emptyDB();
+
+    const data = JSON.parse(saved);
+    const defaults = emptyDB();
+
+    return {
+      ...defaults,
+      ...data,
+      products: Array.isArray(data.products) ? data.products : [],
+      customers: Array.isArray(data.customers) ? data.customers : [],
+      sales: Array.isArray(data.sales) ? data.sales : [],
+      settings: { ...defaults.settings, ...(data.settings || {}) }
+    };
+  } catch (error) {
+    alert("Data could not be read. Please avoid clearing browser data.");
+    return emptyDB();
+  }
+}
+
+let db = loadDB();
+
+function saveDB() {
+  try {
+    localStorage.setItem(DB_KEY, JSON.stringify(db));
+    return true;
+  } catch (error) {
+    alert("Data save nahi ho saka. Browser storage full ho sakti hai.");
+    return false;
+  }
+}
+
+function money(value) {
+  return "Rs " + Number(value || 0).toLocaleString("en-PK", {
+    maximumFractionDigits: 2
+  });
+}
+
+function escapeHTML(value) {
+  return String(value ?? "").replace(/[&<>"']/g, char => ({
+    "&": "&amp;",
+    "<": "&lt;",
+    ">": "&gt;",
+    '"': "&quot;",
+    "'": "&#39;"
+  })[char]);
+}
+
+function todayISO() {
+  const now = new Date();
+  return now.getFullYear() + "-" +
+    String(now.getMonth() + 1).padStart(2, "0") + "-" +
+    String(now.getDate()).padStart(2, "0");
+}
+
+function showPage(pageId) {
+  document.querySelectorAll(".page").forEach(page => {
+    page.classList.toggle("active", page.id === pageId);
+  });
+
+  document.querySelectorAll(".nav-btn").forEach(button => {
+    button.classList.toggle("active", button.dataset.page === pageId);
+  });
+
+  if (pageId === "products") renderProducts();
+  if (pageId === "sales") renderSaleOptions();
+  if (pageId === "customers") renderCustomers();
+  if (pageId === "reports") renderDashboard();
+}
+
+document.querySelectorAll(".nav-btn").forEach(button => {
+  button.addEventListener("click", () => showPage(button.dataset.page));
+});
+
+function toggleProductForm(force) {
+  const panel = document.getElementById("productFormPanel");
+  const shouldShow = typeof force === "boolean"
+    ? force
+    : panel.classList.contains("hidden");
+
+  panel.classList.toggle("hidden", !shouldShow);
+
+  if (!shouldShow) {
+    document.getElementById("productForm").reset();
+    document.getElementById("editProductId").value = "";
+    document.getElementById("productFormTitle").textContent = "Add New Product";
+    document.getElementById("lowStockLimit").value = "5";
+  }
+}
+
+function toggleCustomerForm(force) {
+  const panel = document.getElementById("customerFormPanel");
+  const shouldShow = typeof force === "boolean"
+    ? force
+    : panel.classList.contains("hidden");
+
+  panel.classList.toggle("hidden", !shouldShow);
+
+  if (!shouldShow) document.getElementById("customerForm").reset();
+}
+
+document.getElementById("productForm").addEventListener("submit", event => {
+  event.preventDefault();
+
+  const editId = Number(document.getElementById("editProductId").value);
+  const oldProduct = db.products.find(p => p.id === editId);
+
+  const product = {
+    id: editId || db.nextProductId++,
+    name: document.getElementById("productName").value.trim(),
+    category: document.getElementById("productCategory").value,
+    brand: document.getElementById("productBrand").value.trim(),
+    unit: document.getElementById("productUnit").value,
+    purchasePrice: Number(document.getElementById("purchasePrice").value),
+    salePrice: Number(document.getElementById("salePrice").value),
+    stock: Number(document.getElementById("productStock").value),
+    lowStockLimit: Number(document.getElementById("lowStockLimit").value || 0),
+    batchNumber: document.getElementById("batchNumber").value.trim(),
+    expiryDate: document.getElementById("expiryDate").value,
+    createdAt: oldProduct?.createdAt || new Date().toISOString()
+  };
+
+  if (!product.name || product.purchasePrice < 0 ||
+      product.salePrice < 0 || product.stock < 0) {
+    alert("Please enter valid product information.");
+    return;
+  }
+
+  if (oldProduct) {
+    const soldQuantity = oldProduct.soldQuantity || 0;
+
+    if (product.stock < soldQuantity) {
+      alert("Stock cannot be lower than the quantity already sold.");
+      return;
+    }
+
+    Object.assign(oldProduct, product);
+  } else {
+    product.soldQuantity = 0;
+    db.products.push(product);
+  }
+
+  if (!saveDB()) return;
+
+  toggleProductForm(false);
+  renderAll();
+  alert("Product saved successfully!");
+});
+
+function editProduct(id) {
+  const p = db.products.find(item => item.id === id);
+  if (!p) return;
+
+  document.getElementById("editProductId").value = p.id;
+  document.getElementById("productName").value = p.name;
+  document.getElementById("productCategory").value = p.category;
+  document.getElementById("productBrand").value = p.brand || "";
+  document.getElementById("productUnit").value = p.unit;
+  document.getElementById("purchasePrice").value = p.purchasePrice;
+  document.getElementById("salePrice").value = p.salePrice;
+  document.getElementById("productStock").value = p.stock;
+  document.getElementById("lowStockLimit").value = p.lowStockLimit;
+  document.getElementById("batchNumber").value = p.batchNumber || "";
+  document.getElementById("expiryDate").value = p.expiryDate || "";
+  document.getElementById("productFormTitle").textContent = "Edit Product";
+
+  toggleProductForm(true);
+  document.getElementById("productFormPanel").scrollIntoView({ behavior: "smooth" });
+}
+
+function deleteProduct(id) {
+  const p = db.products.find(item => item.id === id);
+  if (!p) return;
+
+  if (db.sales.some(sale => sale.productId === id)) {
+    alert("This product has sales history. It cannot be deleted.");
+    return;
+  }
+
+  if (!confirm("Delete " + p.name + "?")) return;
+
+  db.products = db.products.filter(item => item.id !== id);
+  if (!saveDB()) return;
+
+  renderAll();
+}
+
+function renderProducts() {
+  const query = document.getElementById("productSearch").value.toLowerCase();
+  const category = document.getElementById("categoryFilter").value;
+
+  const products = db.products.filter(p =>
+    (p.name + " " + (p.brand || "")).toLowerCase().includes(query) &&
+    (!category || p.category === category)
+  );
+
+  const tbody = document.getElementById("productsTable");
+
+  if (!products.length) {
+    tbody.innerHTML = '<tr><td colspan="9" class="empty">No products found. Add your first product.</td></tr>';
+    return;
+  }
+
+  tbody.innerHTML = products.map(p => {
+    const low = p.stock <= p.lowStockLimit;
+    const expired = p.expiryDate && p.expiryDate < todayISO();
+
+    return `<tr>
+      <td>${escapeHTML(p.name)}</td>
+      <td>${escapeHTML(p.category)}</td>
+      <td>${escapeHTML(p.brand || "-")}</td>
+      <td><span class="badge ${low ? "badge-low" : ""}">${p.stock}</span></td>
+      <td>${escapeHTML(p.unit)}</td>
+      <td>${money(p.purchasePrice)}</td>
+      <td>${money(p.salePrice)}</td>
+      <td>${expired ? "EXPIRED " : ""}${escapeHTML(p.expiryDate || "-")}</td>
+      <td>
+        <button class="btn btn-small" onclick="editProduct(${p.id})">Edit</button>
+        <button class="btn btn-danger btn-small" onclick="deleteProduct(${p.id})">Delete</button>
+      </td>
+    </tr>`;
+  }).join("");
+}
+
+document.getElementById("productSearch").addEventListener("input", renderProducts);
+document.getElementById("categoryFilter").addEventListener("change", renderProducts);
+
+document.getElementById("customerForm").addEventListener("submit", event => {
+  event.preventDefault();
+
+  const customer = {
+    id: db.nextCustomerId++,
+    name: document.getElementById("customerName").value.trim(),
+    phone: document.getElementById("customerPhone").value.trim(),
+    address: document.getElementById("customerAddress").value.trim(),
+    openingDue: 0,
+    payments: []
+  };
+
+  if (!customer.name) return;
+
+  db.customers.push(customer);
+  if (!saveDB()) return;
+
+  toggleCustomerForm(false);
+  renderAll();
+  alert("Customer saved successfully!");
+});
+
+function customerDue(customerId) {
+  const customer = db.customers.find(c => c.id === customerId);
+  if (!customer) return 0;
+
+  const salesDue = db.sales
+    .filter(s => s.customerId === customerId)
+    .reduce((sum, sale) => sum + sale.due, 0);
+
+  const payments = (customer.payments || [])
+    .reduce((sum, payment) => sum + payment.amount, 0);
+
+  return Math.max(0, (customer.openingDue || 0) + salesDue - payments);
+}
+
+function recordCustomerPayment(id) {
+  const customer = db.customers.find(c => c.id === id);
+  if (!customer) return;
+
+  const due = customerDue(id);
+
+  if (due <= 0) {
+    alert("This customer has no outstanding balance.");
+    return;
+  }
+
+  const input = prompt("Outstanding: " + money(due) +
+    "\nEnter payment received (Rs):");
+
+  if (input === null) return;
+
+  const amount = Number(input);
+
+  if (!Number.isFinite(amount) || amount <= 0 || amount > due) {
+    alert("Please enter a valid payment not exceeding the outstanding balance.");
+    return;
+  }
+
+  customer.payments = customer.payments || [];
+  customer.payments.push({
+    amount,
+    date: new Date().toISOString()
+  });
+
+  if (!saveDB()) return;
+
+  renderAll();
+  alert("Payment recorded successfully!");
+}
+
+function renderCustomers() {
+  const query = document.getElementById("customerSearch").value.toLowerCase();
+
+  const customers = db.customers.filter(c =>
+    (c.name + " " + c.phone + " " + c.address).toLowerCase().includes(query)
+  );
+
+  const tbody = document.getElementById("customersTable");
+
+  if (!customers.length) {
+    tbody.innerHTML = '<tr><td colspan="5" class="empty">No customers found. Add your first customer.</td></tr>';
+    return;
+  }
+
+  tbody.innerHTML = customers.map(c => `
+    <tr>
+      <td>${escapeHTML(c.name)}</td>
+      <td>${escapeHTML(c.phone || "-")}</td>
+      <td>${escapeHTML(c.address || "-")}</td>
+      <td>${money(customerDue(c.id))}</td>
+      <td><button class="btn btn-small" onclick="recordCustomerPayment(${c.id})">Receive Payment</button></td>
+    </tr>
+  `).join("");
+}
+
+document.getElementById("customerSearch").addEventListener("input", renderCustomers);
+
+function renderSaleOptions() {
+  const productSelect = document.getElementById("saleProduct");
+  const customerSelect = document.getElementById("saleCustomer");
+  const currentProduct = productSelect.value;
+  const currentCustomer = customerSelect.value;
+
+  productSelect.innerHTML = '<option value="">Select product</option>' +
+    db.products.filter(p => p.stock > 0).map(p =>
+      `<option value="${p.id}">${escapeHTML(p.name)} — Stock: ${p.stock} ${escapeHTML(p.unit)}</option>`
+    ).join("");
+
+  customerSelect.innerHTML = '<option value="">Walk-in Customer</option>' +
+    db.customers.map(c =>
+      `<option value="${c.id}">${escapeHTML(c.name)}</option>`
+    ).join("");
+
+  if (db.products.some(p => String(p.id) === currentProduct && p.stock > 0)) {
+    productSelect.value = currentProduct;
+  }
+
+  if (db.customers.some(c => String(c.id) === currentCustomer)) {
+    customerSelect.value = currentCustomer;
+  }
+
+  updateSalePrice();
+}
+
+function updateSalePrice() {
+  const id = Number(document.getElementById("saleProduct").value);
+  const product = db.products.find(p => p.id === id);
+
+  document.getElementById("saleUnitPrice").value = product ? product.salePrice : "";
+
+  updateSaleTotal();
+}
+
+function updateSaleTotal() {
+  const quantity = Number(document.getElementById("saleQuantity").value || 0);
+  const price = Number(document.getElementById("saleUnitPrice").value || 0);
+
+  document.getElementById("saleTotalPreview").textContent = money(quantity * price);
+}
+
+document.getElementById("saleProduct").addEventListener("change", updateSalePrice);
+document.getElementById("saleQuantity").addEventListener("input", updateSaleTotal);
+document.getElementById("saleUnitPrice").addEventListener("input", updateSaleTotal);
+
+document.getElementById("salePayment").addEventListener("change", () => {
+  const payment = document.getElementById("salePayment").value;
+
+  if (payment === "Cash") {
+    const total = Number(document.getElementById("saleQuantity").value || 0) *
+      Number(document.getElementById("saleUnitPrice").value || 0);
+
+    document.getElementById("salePaid").value = total;
+  }
+
+  if (payment === "Credit") {
+    document.getElementById("salePaid").value = 0;
+  }
+});
+
+document.getElementById("saleForm").addEventListener("submit", event => {
+  event.preventDefault();
+
+  const productId = Number(document.getElementById("saleProduct").value);
+  const product = db.products.find(p => p.id === productId);
+  const customerId = Number(document.getElementById("saleCustomer").value) || null;
+  const quantity = Number(document.getElementById("saleQuantity").value);
+  const price = Number(document.getElementById("saleUnitPrice").value);
+  const paid = Number(document.getElementById("salePaid").value);
+  const paymentType = document.getElementById("salePayment").value;
+
+  if (!product) {
+    alert("Please select a product.");
+    return;
+  }
+
+  if (!Number.isFinite(quantity) || quantity <= 0 || quantity > product.stock) {
+    alert("Quantity must be greater than zero and cannot exceed available stock.");
+    return;
+  }
+
+  if (!Number.isFinite(price) || price < 0 ||
+      !Number.isFinite(paid) || paid < 0) {
+    alert("Please enter valid price and payment amounts.");
+    return;
+  }
+
+  const total = Math.round(quantity * price * 100) / 100;
+
+  if (paid > total) {
+    alert("Amount received cannot exceed the sale total.");
+    return;
+  }
+
+  if (paymentType === "Cash" && paid !== total) {
+    alert("For a cash sale, the amount received must equal the total.");
+    return;
+  }
+
+  if (paymentType === "Credit" && paid !== 0) {
+    alert("For a credit sale, set the amount received to zero.");
+    return;
+  }
+
+  const due = Math.round((total - paid) * 100) / 100;
+
+  if (due > 0 && !customerId) {
+    alert("Select a registered customer to record an outstanding balance.");
+    return;
+  }
+
+  if (paymentType === "Partial" && (paid <= 0 || due <= 0)) {
+    alert("For a partial payment, the received amount must be greater than zero and less than the total.");
+    return;
+  }
+
+  if (paymentType === "Credit" && total <= 0) {
+    alert("Credit sale total must be greater than zero.");
+    return;
+  }
+
+  const sale = {
+    id: db.nextSaleId++,
+    invoice: "AGR-" + String(db.nextSaleId - 1).padStart(5, "0"),
+    date: new Date().toISOString(),
+    customerId,
+    customerName: customerId
+      ? db.customers.find(c => c.id === customerId).name
+      : "Walk-in Customer",
+    productId: product.id,
+    productName: product.name,
+    quantity,
+    unit: product.unit,
+    purchasePrice: product.purchasePrice,
+    unitPrice: price,
+    total,
+    paid,
+    due,
+    paymentType
+  };
+
+  product.stock = Math.round((product.stock - quantity) * 1000) / 1000;
+  product.soldQuantity = (product.soldQuantity || 0) + quantity;
+  db.sales.push(sale);
+
+  if (!saveDB()) return;
+
+  document.getElementById("saleForm").reset();
+  document.getElementById("saleQuantity").value = 1;
+  document.getElementById("salePaid").value = 0;
+
+  renderAll();
+  showPage("sales");
+  alert("Sale completed! Invoice: " + sale.invoice);
+});
+
+function renderSales() {
+  const tbody = document.getElementById("salesTable");
+  const sales = [...db.sales].reverse();
+
+  if (!sales.length) {
+    tbody.innerHTML = '<tr><td colspan="8" class="empty">No sales recorded yet.</td></tr>';
+  } else {
+    tbody.innerHTML = sales.map(s => `
+      <tr>
+        <td>${escapeHTML(s.invoice)}</td>
+        <td>${escapeHTML(new Date(s.date).toLocaleDateString())}</td>
+        <td>${escapeHTML(s.customerName)}</td>
+        <td>${escapeHTML(s.productName)}</td>
+        <td>${s.quantity} ${escapeHTML(s.unit)}</td>
+        <td>${money(s.total)}</td>
+        <td>${money(s.paid)}</td>
+        <td>${money(s.due)}</td>
+      </tr>
+    `).join("");
+  }
+
+  const recent = [...db.sales].reverse().slice(0, 5);
+
+  document.getElementById("recentSalesTable").innerHTML = recent.length
+    ? recent.map(s => `
+      <tr>
+        <td>${escapeHTML(new Date(s.date).toLocaleDateString())}</td>
+        <td>${escapeHTML(s.customerName)}</td>
+        <td>${money(s.total)}</td>
+        <td>${escapeHTML(s.paymentType)}</td>
+      </tr>
+    `).join("")
+    : '<tr><td colspan="4" class="empty">No sales yet.</td></tr>';
+}
+
+function renderDashboard() {
+  const totalSales = db.sales.reduce((sum, s) => sum + s.total, 0);
+  const totalDues = db.customers.reduce((sum, c) => sum + customerDue(c.id), 0);
+  const totalStock = db.products.reduce((sum, p) => sum + p.stock, 0);
+  const stockValue = db.products.reduce((sum, p) => sum + p.stock * p.purchasePrice, 0);
+  const grossProfit = db.sales.reduce((sum, s) =>
+    sum + (s.unitPrice - s.purchasePrice) * s.quantity, 0);
+
+  document.getElementById("totalProducts").textContent = db.products.length;
+  document.getElementById("totalStock").textContent = totalStock.toLocaleString("en-PK");
+  document.getElementById("totalSales").textContent = money(totalSales);
+  document.getElementById("totalDues").textContent = money(totalDues);
+
+  document.getElementById("reportSales").textContent = money(totalSales);
+  document.getElementById("stockValue").textContent = money(stockValue);
+  document.getElementById("grossProfit").textContent = money(grossProfit);
+  document.getElementById("reportDues").textContent = money(totalDues);
+
+  const lowStock = db.products.filter(p => p.stock <= p.lowStockLimit);
+
+  document.getElementById("lowStockTable").innerHTML = lowStock.length
+    ? lowStock.map(p => `
+      <tr>
+        <td>${escapeHTML(p.name)}</td>
+        <td>${escapeHTML(p.category)}</td>
+        <td><span class="badge badge-low">${p.stock}</span></td>
+        <td>${escapeHTML(p.unit)}</td>
+      </tr>
+    `).join("")
+    : '<tr><td colspan="4" class="empty">No low-stock products.</td></tr>';
+
+  renderSales();
+  renderProducts();
+  renderCustomers();
+}
+
+function renderAll() {
+  renderDashboard();
+  renderSaleOptions();
+}
+
+function exportData() {
+  const blob = new Blob([JSON.stringify(db, null, 2)], {
+    type: "application/json"
+  });
+
+  const url = URL.createObjectURL(blob);
+  const link = document.createElement("a");
+
+  link.href = url;
+  link.download = "agri-store-backup-" + todayISO() + ".json";
+  link.click();
+
+  setTimeout(() => URL.revokeObjectURL(url), 1000);
+}
+
+document.getElementById("settingsForm").addEventListener("submit", event => {
+  event.preventDefault();
+
+  db.settings.shopName = document.getElementById("shopName").value.trim() || "Agri Store Pro";
+  db.settings.ownerName = document.getElementById("ownerName").value.trim();
+  db.settings.shopPhone = document.getElementById("shopPhone").value.trim();
+  db.settings.shopAddress = document.getElementById("shopAddress").value.trim();
+
+  if (!saveDB()) return;
+
+  document.querySelector(".brand h1").textContent = db.settings.shopName;
+  alert("Settings saved successfully!");
+});
+
+function loadSettings() {
+  document.getElementById("shopName").value = db.settings.shopName;
+  document.getElementById("ownerName").value = db.settings.ownerName;
+  document.getElementById("shopPhone").value = db.settings.shopPhone;
+  document.getElementById("shopAddress").value = db.settings.shopAddress;
+  document.querySelector(".brand h1").textContent = db.settings.shopName;
+}
+
+document.getElementById("todayDate").textContent =
+  new Date().toLocaleDateString("en-PK", {
+    weekday: "short",
+    day: "numeric",
+    month: "short",
+    year: "numeric"
+  });
+
+loadSettings();
+renderAll();
+</script>
+
+</body>
+</html>
